@@ -1,0 +1,10 @@
+USE oraksil;
+
+DROP TABLE IF EXISTS signaling;
+DROP TABLE IF EXISTS game;
+DROP TABLE IF EXISTS player;
+DROP TABLE IF EXISTS pack;
+DROP TABLE IF EXISTS feedback;
+DROP TABLE IF EXISTS turnconfig;
+
+DROP DATABASE oraksil;
