@@ -8,11 +8,20 @@ _Captured by [Kropsaurus](https://kropsaurus.pineple.com/)_
 
 ### Prerequisite
 
-- docker (with `docker-compose`)
+- Docker (with `docker-compose`)
+- [MAME](https://github.com/mamedev/mame) Game ROMs
+    - It's recommended that you get the game roms yourself due to some license issue.
+    - The ROMs should be compatible to [MAME 0.223](https://github.com/mamedev/mame/releases/tag/mame0223)
+    - Place ROM files under `./roms`
 
 ### Run
 ```
 $ docker-compose up
+```
+
+If you'd like to play the specific game, use environment variable `GAME` by setting rom(zip) file name. For example, if you have `./roms/bublbobl.zip`
+```
+$ GAME=bublbobl docker-compose up
 ```
 
 ## Troubleshoot
