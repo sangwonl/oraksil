@@ -92,8 +92,8 @@ services:
       IPC_SOUND_FRAMES: tcp://0.0.0.0:8766
       IPC_CMD_INPUTS: tcp://0.0.0.0:8767
       RESOLUTION: "640x480"
-      FPS: "25"
-      KEYFRAME_INTERVAL: "200"
+      FPS: "24"
+      KEYFRAME_INTERVAL: "72"
       GAME: "${GAME:-dino}"
 
   orakki:
@@ -104,9 +104,9 @@ services:
       MQRPC_IDENTIFIER: orakki-static
       STATIC_ORAKKI_ID: orakki-static
       PLAYER_HEALTHCHECK_TIMEOUT: "20"
-      PLAYER_HEALTHCHECK_INTERVAL: "3"
-      PLAYER_IDLECHECK_TIMEOUT: "1200"
-      PLAYER_IDLECHECK_INTERVAL: "7"
+      PLAYER_HEALTHCHECK_INTERVAL: "5"
+      PLAYER_IDLECHECK_TIMEOUT: "86400"
+      PLAYER_IDLECHECK_INTERVAL: "10"
       TURN_URI: turn:turn:3478?transport=tcp
       TURN_SECRET_KEY: oraksil-turn-secret
       TURN_TTL: "3600"
