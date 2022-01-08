@@ -1,0 +1,120 @@
+version: "3.9"
+services:
+  db:
+    image: mariadb:10.5.4
+    volumes:
+      - ./data/db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: oraksil
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "db", "-poraksil"]
+      interval: 1s
+      timeout: 10s
+      retries: 30      
+  
+  migrator:
+    image: mariadb:10.5.4
+    volumes:
+      - ./migrations:/var/opt/migrations
+    command:
+      - sh
+      - -c
+      - 'mysql -h db -uroot -poraksil < /var/opt/migrations/up.sql'
+    depends_on:
+      db:
+        condition: service_healthy
+
+  mq:
+    image: rabbitmq:3.8.5-management
+    volumes:
+      - ./data/mq:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: oraksil
+      RABBITMQ_DEFAULT_PASS: oraksil
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_running"]
+      interval: 1s
+      timeout: 5s
+      retries: 30 
+
+  turn:
+    image: instrumentisto/coturn
+    command:
+      - -n
+      - --log-file=stdout
+      - --external-ip="$$(detect-external-ip)"
+      - --verbose
+      - --fingerprint
+      - --realm=oraksil
+      - --use-auth-secret
+      - --static-auth-secret=oraksil-turn-secret
+    ports:
+      - "3478:3478"
+      - "3478:3478/udp"
+
+  azumma:
+    image: sangwonl/azumma
+    ports:
+      - "8000:8000"
+    environment:
+      DB_URI: oraksil:oraksil@(db:3306)/oraksil?parseTime=true
+      MQRPC_URI: amqp://oraksil:oraksil@mq:5672/
+      MQRPC_NAMESPACE: oraksil
+      MQRPC_IDENTIFIER: azumma-local
+      STATIC_ORAKKI_ID: orakki-static
+      TURN_SECRET_KEY: oraksil-turn-secret
+      TURN_TTL: "3600"
+    depends_on:
+      db:
+        condition: service_healthy
+      mq:
+        condition: service_healthy
+
+  esekki:
+    image: sangwonl/esekki
+    ports:
+      - "3000:3000"
+    depends_on:
+      azumma:
+        condition: service_started
+
+  gipan:
+    image: sangwonl/gipan
+    volumes:
+      - ./roms:/home/app/roms
+    environment:
+      IPC_IMAGE_FRAMES: tcp://0.0.0.0:8765
+      IPC_SOUND_FRAMES: tcp://0.0.0.0:8766
+      IPC_CMD_INPUTS: tcp://0.0.0.0:8767
+      RESOLUTION: "640x480"
+      FPS: "25"
+      KEYFRAME_INTERVAL: "200"
+      GAME: "${GAME:-dino}"
+
+  orakki:
+    image: sangwonl/orakki
+    environment:
+      MQRPC_URI: amqp://oraksil:oraksil@mq:5672/
+      MQRPC_NAMESPACE: oraksil
+      MQRPC_IDENTIFIER: orakki-static
+      STATIC_ORAKKI_ID: orakki-static
+      PLAYER_HEALTHCHECK_TIMEOUT: "20"
+      PLAYER_HEALTHCHECK_INTERVAL: "3"
+      PLAYER_IDLECHECK_TIMEOUT: "1200"
+      PLAYER_IDLECHECK_INTERVAL: "7"
+      TURN_URI: turn:turn:3478?transport=tcp
+      TURN_SECRET_KEY: oraksil-turn-secret
+      TURN_TTL: "3600"
+      IPC_IMAGE_FRAMES: tcp://gipan:8765
+      IPC_SOUND_FRAMES: tcp://gipan:8766
+      IPC_CMD_INPUTS: tcp://gipan:8767
+    depends_on:
+      gipan:
+        condition: service_started
+      mq:
+        condition: service_healthy
