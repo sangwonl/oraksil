@@ -1,4 +1,4 @@
-# ORAKSIL (추억의 오락실)
+# Oraksil (추억의 오락실)
 
 https://user-images.githubusercontent.com/2357381/148651036-8b7c5674-0c08-4e5e-aec7-29fe5b40c72f.mp4
 
@@ -50,7 +50,11 @@ A web application running on a browser. It provides user with games catalog and 
 
 `Gipan` means a (green) main board in the game console box. It integrates MAME emulator as a game engine, encodes video/audio frames MAME renders and provides IPC or TCP channels for `Orakki` to fetch the encoded data. (It's the same for player control data) It's built with [Rust](https://www.rust-lang.org/).
 
-### MAME as a lib
+### MAME as a headless lib
+
+[MAME](https://www.mamedev.org/https://en.wikipedia.org/wiki/MAME) is a free and open-source emulator designed to recreate the hardware of arcade game systems in software on modern personal computers and other platforms. It supports over 7,000 unique games.
+
+Since [MAME open source](https://github.com/mamedev/mame) is made for standalone application which has its own GUI, it was needed to modify MAME as a headless library which has no GUI. So, we made some changes to add headless osd interface. If you're interested in it, please refer to [this PR](https://github.com/oraksil/mame/pull/10).
 
 ### Encoding game frames
 
