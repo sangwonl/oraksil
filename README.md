@@ -58,17 +58,24 @@ Since [MAME open source](https://github.com/mamedev/mame) is made for standalone
 
 ### Encoding game frames
 
+Raw game frames are generated from MAME. There're two types of game frames. One is image frame which is captured at 24fps, another is audio frame which is captured at 48,000 sampling rates for two channels. `libmame` provides those frames to `Gipan` via callback functions.
+
+The, `Gipan` encodes video frame with H.264 (using `libx264`) and audio frame with OPUS (using `libopus`) respectively. When it comes to game streaming, it's especially important to transmit video frames in low latency so that user doesn't feel some lags. So, we've used [encoding parameters for `ultrafast` preset](https://dev.beandog.org/x264_preset_reference.html).
+
+
 ### WebRTC Signaling
 
-#### SDP
+WebRTC signaling is divided into two stages. The first stage is exchanging offer/answer by [SDP(Session Description Protocol)](https://datatracker.ietf.org/doc/html/rfc4566), the second one is exchanging connection info between peers by [ICE(Interactive Connectivity Establishment)](https://datatracker.ietf.org/doc/html/rfc5245).
+
+Server side peer `Orakki` can be provisioned or removed on request. So, from a scalability point of view, we decided that it would be better to put it on the backend without exposing to public network directly. If so, the problem is that `Orakki` on the backend cannot exchange SDP/ICE data directly with client, but this can be solved by Message Queue such as [`RabbitMQ`](https://www.rabbitmq.com/) and `Azumma` proxying signaling.
+
+#### Media Offer/Answer Exchange (SDP)
 
 ![](./assets/sig-sdp.png)
 
-#### ICE Candidates
+#### Peer Connection Info Exchange (ICE)
 
 ![](./assets/sig-ice.png)
-
-### Multiplaying
 
 ## Troubleshoot
 - If you are stuck at creating a player on the modal form, please try to clear cookies and try again.
