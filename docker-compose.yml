@@ -94,7 +94,7 @@ services:
       RESOLUTION: "640x480"
       FPS: "24"
       KEYFRAME_INTERVAL: "72"
-      GAME: "${GAME:-dino}"
+      GAME: "${GAME:-supertnk}"
 
   orakki:
     image: sangwonl/orakki
