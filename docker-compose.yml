@@ -79,6 +79,8 @@ services:
     image: sangwonl/esekki
     ports:
       - "3000:3000"
+    environment:
+      PUBLIC_PROXY_HOST: http://azumma:8000
     depends_on:
       azumma:
         condition: service_started
