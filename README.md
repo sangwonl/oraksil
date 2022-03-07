@@ -80,5 +80,8 @@ Server side peer `Orakki` can be provisioned or removed on request. So, from a s
 ## Troubleshoot
 - If you are stuck at creating a player on the modal form, please try to clear cookies and try again.
 
+## Blog post series
+[Read more](https://gamz.medium.com/%EC%B6%94%EC%96%B5%EC%9D%98-%EC%98%A4%EB%9D%BD%EC%8B%A4-1-11-%EA%B0%9C%EC%9A%94-cb8b13dec26)
+
 ## Contributors
 - [@onejae](https://github.com/onejae)
