@@ -95,7 +95,7 @@ services:
       IPC_CMD_INPUTS: tcp://0.0.0.0:8767
       RESOLUTION: "640x480"
       FPS: "24"
-      KEYFRAME_INTERVAL: "72"
+      KEYFRAME_INTERVAL: "24"
       GAME: "${GAME:-supertnk}"
 
   orakki:
