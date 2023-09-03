@@ -2,7 +2,7 @@
 
 https://user-images.githubusercontent.com/2357381/148651036-8b7c5674-0c08-4e5e-aec7-29fe5b40c72f.mp4
 
-_Captured by [Kropsaurus](https://kropsaurus.pineple.com/)_
+_Captured by [CropMon](https://cropmon.pineple.com/)_
 
 ## Give it a try
 
