@@ -4,6 +4,11 @@ https://user-images.githubusercontent.com/2357381/148651036-8b7c5674-0c08-4e5e-a
 
 _Captured by [CropMon](https://cropmon.pineple.com/)_
 
+## Organization & Repositories
+
+[Oraksil](https://github.com/oraksil) - Retro Game Streaming Console
+
+
 ## Give it a try
 
 ### Prerequisite
