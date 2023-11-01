@@ -1,6 +1,8 @@
-CREATE DATABASE IF NOT EXISTS oraksil;
+CREATE DATABASE IF NOT EXISTS oraksil CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-GRANT ALL PRIVILEGES ON oraksil.* TO 'oraksil'@'%' identified by 'oraksil';
+CREATE USER IF NOT EXISTS 'oraksil'@'%' IDENTIFIED BY 'oraksil';
+GRANT ALL ON oraksil.* TO 'oraksil'@'%';
+FLUSH PRIVILEGES;
 
 USE oraksil;
 
@@ -10,7 +12,7 @@ CREATE TABLE pack (
     title VARCHAR(64) NOT NULL,
     maker VARCHAR(64) NOT NULL,
     description text,
-    max_players INT, 
+    max_players INT,
     poster_url text,
     rom_name VARCHAR(16),
 
@@ -35,7 +37,7 @@ CREATE TABLE game (
     first_player_id BIGINT NOT NULL,
     joined_player_ids VARCHAR(128),
     created_at TIMESTAMP,
-    
+
     PRIMARY KEY (id),
     FOREIGN KEY (first_player_id) REFERENCES player(id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

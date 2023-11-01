@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   db:
-    image: mariadb:10.5.4
+    image: mysql:8.2.0
     volumes:
       - ./data/db:/var/lib/mysql
     ports:
@@ -12,10 +12,10 @@ services:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "db", "-poraksil"]
       interval: 1s
       timeout: 10s
-      retries: 30      
-  
+      retries: 30
+
   migrator:
-    image: mariadb:10.5.4
+    image: mysql:8.2.0
     volumes:
       - ./migrations:/var/opt/migrations
     command:
@@ -40,7 +40,7 @@ services:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "check_running"]
       interval: 1s
       timeout: 5s
-      retries: 30 
+      retries: 30
 
   turn:
     image: instrumentisto/coturn
